@@ -1,16 +1,14 @@
-# grisoft_url_shortening
+# Url Shortening
 
-A new Flutter project.
+The project was developed with Flutter (2.5.3)
 
-## Getting Started
+>Main packages used:
+>   - Provider (State Management)
+>   - Hive (Cache Management)
+>   - dio (Network Management)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+>Utility packages used:
+>   - bot_toast (Toast Management)
+>   - clipboard (Copy to Clipboard)
