@@ -39,14 +39,15 @@ class AppViewModel extends BaseViewModel {
 
   shortenTheLink(String url) async {
     setState(ViewState.Busy);
-    var link = await service.shortenTheUrl(url);
+    var res = await service.shortenTheUrl(url);
     setState(ViewState.Idle);
-    if (link == null) {
-      showNotification(NotificationType.ERROR, "Hata oluştu. Tekrar deneyin");
+    if (res.hasError ?? false) {
+      showNotification(NotificationType.ERROR, res.errorMessage??"");
       return;
     }
-    await _cacheManager.setData(link);
+    await _cacheManager.setData(res.link);
     getLinks();
+    setEmptyError(false);
     showList = true;
     saveChanges();
   }
@@ -67,9 +68,9 @@ class AppViewModel extends BaseViewModel {
     setState(ViewState.Idle);
   }
 
-  void setEmptyError() {
-    emptyError = true;
-    hintText = _emptyErrorMessage;
+  void setEmptyError(bool val) {
+    emptyError = val;
+    hintText = val ? _emptyErrorMessage : _defaultText;
     saveChanges();
   }
 }

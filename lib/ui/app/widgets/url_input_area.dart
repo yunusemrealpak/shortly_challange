@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grisoft_url_shortening/core/extensions/context_extensions.dart';
-import 'package:grisoft_url_shortening/core/extensions/string_extensions.dart';
 
 class UrlInputArea extends StatefulWidget {
   final String hintText;
   final bool emptyError;
   final Function(String) sendUrl;
-  final VoidCallback setError;
+  final Function(bool) setError;
   const UrlInputArea(
       {Key? key, required this.emptyError, required this.hintText, required this.sendUrl, required this.setError})
       : super(key: key);
@@ -71,25 +70,6 @@ class _UrlInputAreaState extends State<UrlInputArea> {
                         return "";
                       }
 
-                      if (!text!.isValidUrl) {
-                        final snackBar = SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          content: const Text(
-                            'Url does not valid',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          margin: context.paddingNormal,
-                          elevation: 1000,
-                          backgroundColor: Colors.red,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                        return "";
-                      }
-
                       return null;
                     },
                   ),
@@ -106,7 +86,7 @@ class _UrlInputAreaState extends State<UrlInputArea> {
                     if (_formKey.currentState!.validate()) {
                       widget.sendUrl(_controller.text);
                     } else {
-                      widget.setError();
+                      widget.setError(true);
                     }
                   },
                   child: Text(
