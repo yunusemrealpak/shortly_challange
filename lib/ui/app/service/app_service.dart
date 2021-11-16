@@ -21,7 +21,7 @@ class AppService extends BaseService {
         var res = response.resultData["ok"];
         if (res) {
           var link = ShortlyLink.fromJson(response.resultData["result"]);
-          
+          link.createdDate = DateTime.now().toString();
           return ResponseModel(link: link);
         } else {
           var errorCode = response.resultData["error_code"] as int;

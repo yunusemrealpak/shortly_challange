@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grisoft_url_shortening/core/extensions/context_extensions.dart';
+import 'package:grisoft_url_shortening/core/extensions/string_extensions.dart';
 
 class UrlInputArea extends StatefulWidget {
   final String hintText;
@@ -67,6 +68,25 @@ class _UrlInputAreaState extends State<UrlInputArea> {
                     textAlign: TextAlign.center,
                     validator: (text) {
                       if (text?.isEmpty ?? true) {
+                        return "";
+                      }
+
+                      if (!text!.isValidUrl) {
+                        final snackBar = SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: const Text(
+                            'Url does not valid',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          margin: context.paddingNormal,
+                          elevation: 1000,
+                          backgroundColor: Colors.red,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                         return "";
                       }
 

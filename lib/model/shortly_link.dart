@@ -22,6 +22,8 @@ class ShortlyLink {
   String? fullShareLink;
   @HiveField(7)
   String? originalLink;
+  @HiveField(8)
+  String? createdDate;
 
   ShortlyLink(
       {this.code,

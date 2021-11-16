@@ -34,7 +34,7 @@ class AppViewModel extends BaseViewModel {
 
   getLinks() {
     links = _cacheManager.getValues() ?? [];
-    links = links.reversed.toList();
+    links.sort((a,b) => b.createdDate!.compareTo(a.createdDate!));
   }
 
   shortenTheLink(String url) async {
@@ -45,11 +45,19 @@ class AppViewModel extends BaseViewModel {
       showNotification(NotificationType.ERROR, res.errorMessage??"");
       return;
     }
+    linkAlreadyExists(res.link!);
     await _cacheManager.setData(res.link);
     getLinks();
     setEmptyError(false);
     showList = true;
     saveChanges();
+  }
+  
+  linkAlreadyExists(ShortlyLink link) {
+    var index = links.indexWhere((element) => element.code == link.code);
+    var exist = index != -1;
+    
+    if(exist) links.removeWhere((element) => element.code == link.code);
   }
 
   copyShortLink(ShortlyLink link) async {
