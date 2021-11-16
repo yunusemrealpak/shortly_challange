@@ -45,7 +45,7 @@ class AppViewModel extends BaseViewModel {
       showNotification(NotificationType.ERROR, res.errorMessage??"");
       return;
     }
-    linkAlreadyExists(res.link!);
+    await linkAlreadyExists(res.link!);
     await _cacheManager.setData(res.link);
     getLinks();
     setEmptyError(false);
@@ -53,11 +53,14 @@ class AppViewModel extends BaseViewModel {
     saveChanges();
   }
   
-  linkAlreadyExists(ShortlyLink link) {
+  linkAlreadyExists(ShortlyLink link) async {
     var index = links.indexWhere((element) => element.code == link.code);
     var exist = index != -1;
     
-    if(exist) links.removeWhere((element) => element.code == link.code);
+    if(exist) {
+      links.removeWhere((element) => element.code == link.code);
+      await updateCacheAll();
+    } 
   }
 
   copyShortLink(ShortlyLink link) async {
@@ -70,10 +73,14 @@ class AppViewModel extends BaseViewModel {
   removeTheLink(ShortlyLink link) async {
     setState(ViewState.Busy);
     links.removeWhere((element) => element.code == link.code);
-    await _cacheManager.clearAll();
-    await _cacheManager.putAll(links);
+    await updateCacheAll();
     getLinks();
     setState(ViewState.Idle);
+  }
+  
+  updateCacheAll() async {
+    await _cacheManager.clearAll();
+    await _cacheManager.putAll(links);
   }
 
   void setEmptyError(bool val) {
