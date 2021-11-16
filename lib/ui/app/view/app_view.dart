@@ -12,7 +12,6 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-  var _formKey = GlobalKey<FormState>();
   late TextEditingController _controller;
 
   @override

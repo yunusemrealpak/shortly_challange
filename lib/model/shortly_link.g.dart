@@ -25,13 +25,13 @@ class ShortlyLinkAdapter extends TypeAdapter<ShortlyLink> {
       shareLink: fields[5] as String?,
       fullShareLink: fields[6] as String?,
       originalLink: fields[7] as String?,
-    );
+    )..createdDate = fields[8] as String?;
   }
 
   @override
   void write(BinaryWriter writer, ShortlyLink obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.code)
       ..writeByte(1)
@@ -47,7 +47,9 @@ class ShortlyLinkAdapter extends TypeAdapter<ShortlyLink> {
       ..writeByte(6)
       ..write(obj.fullShareLink)
       ..writeByte(7)
-      ..write(obj.originalLink);
+      ..write(obj.originalLink)
+      ..writeByte(8)
+      ..write(obj.createdDate);
   }
 
   @override
